@@ -16,6 +16,11 @@ constexpr bool debugBuild{false};
 #endif
 
 
+//TODO : noexcept
+//TODO : nodiscard
+//TODO : into header
+//TODO : test cases
+
 namespace compileTime
 {
 
@@ -190,6 +195,13 @@ public:
     using constantRow   = std::span<T const>;
 
 
+    using iterator               = TwoDArrayIterator<T>;
+    using const_iterator         = TwoDArrayConstIterator<T>;
+    using reverse_iterator       = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
+
+
 public:
     TwoDArray() = default;
 
@@ -318,23 +330,47 @@ public:     // iterators
     
     auto begin() 
     {
-        return TwoDArrayIterator{&vector.front(),columns};
+        return iterator{&vector.front(),columns};
     }
 
     auto end() 
     {
-        return TwoDArrayIterator{&vector.back()+1,columns};
+        return iterator{&vector.back()+1,columns};
     }
 
 
-    auto cbegin() 
+    auto cbegin() const 
     {
-        return TwoDArrayConstIterator{&vector.front(),columns};
+        return const_iterator{&vector.front(),columns};
     }
 
-    auto cend() 
+    auto cend() const
     {
-        return TwoDArrayConstIterator{&vector.back()+1,columns};
+        return const_iterator{&vector.back()+1,columns};
+    }
+
+
+
+
+    auto rbegin() 
+    {
+        return reverse_iterator{end()};
+    }
+
+    auto rend() 
+    {
+        return reverse_iterator{begin()};
+    }
+
+
+    auto crbegin() const
+    {
+        return const_reverse_iterator{cend()};
+    }
+         
+    auto crend() const
+    {
+        return const_reverse_iterator{cbegin()};
     }
 
 
@@ -417,4 +453,8 @@ int main()
 
         std::cout << "\n";
     }
+
+
+    std::vector<int> a;
+    a.rbegin();
 }
