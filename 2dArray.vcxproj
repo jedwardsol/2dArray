@@ -145,6 +145,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="2DArray.h" />
+    <ClInclude Include="2DArrayIterator.h" />
+    <ClInclude Include="debug.h" />
+    <ClInclude Include="Fixed2DArray.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
