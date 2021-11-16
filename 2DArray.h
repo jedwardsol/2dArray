@@ -12,6 +12,9 @@
 #include "2DArrayIterator.h"
 
 
+//TODO : noexcept
+
+
 
 template <typename T>
 class TwoDArray
@@ -76,12 +79,12 @@ public:
 
 public: // raw access
 
-    pointer data()
+    pointer data() noexcept
     {
         return vector.data();
     }
 
-    const_pointer data() const
+    const_pointer data() const noexcept
     {
         return vector.data();
     }
@@ -89,13 +92,13 @@ public: // raw access
 
 public: // element access
 
-    reference operator()(size_t row, size_t column)
+    reference operator()(size_t row, size_t column)  noexcept(releaseBuild)
     {
         debugCheck(row,column);
         return vector[row * columns + column];
     }
 
-    const_reference operator()(size_t row, size_t column) const
+    const_reference operator()(size_t row, size_t column) const noexcept(releaseBuild)
     {
         debugCheck(row,column);
         return vector[row * columns + column];
@@ -131,13 +134,13 @@ public: // element access
 
 public: // row access
 
-    row operator[](size_type row)
+    row operator[](size_type row)  noexcept(releaseBuild)
     {
         debugCheck(row);
         return { &vector[row * columns ], columns};
     }
 
-    constantRow operator[](size_type row) const
+    constantRow operator[](size_type row) const  noexcept(releaseBuild)
     {
         debugCheck(row);
         return { &vector[row * columns ], columns};
@@ -203,8 +206,6 @@ public:     // iterators
     }
 
 
-
-
 private:
 
     void check (size_type row)
@@ -229,7 +230,7 @@ private:
     }
 
 
-    void debugCheck (size_type row)
+    void debugCheck (size_type row)  noexcept(releaseBuild)
     {
         if constexpr(debugBuild)
         {
@@ -237,7 +238,7 @@ private:
         }
     }
 
-    void debugCheck (size_type row, size_type column)
+    void debugCheck (size_type row, size_type column) noexcept(releaseBuild)
     {
         if constexpr(debugBuild)
         {

@@ -37,8 +37,6 @@ public:
     TwoDArrayBaseIterator &operator=(TwoDArrayBaseIterator        &&  ) noexcept =default;
 
 
-
-
     operator TwoDArrayBaseIterator<T,true>() const noexcept
     {
         return {ptr,columns};

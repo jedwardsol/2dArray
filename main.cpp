@@ -4,16 +4,11 @@
 
 #include "Fixed2DArray.h"
 #include "2DArray.h"
-
-//TODO : noexcept
-//TODO : test cases
-
-
-
-
-
 #include "2DArrayIterator.h"
 
+
+
+//TODO : test cases
 
 
 
