@@ -32,6 +32,8 @@ int main()
     stuff[1][3] = 1;
 
 
+    auto i = stuff.begin();
+
     stuff.fill(42);
 
     for(auto const &row : stuff)
@@ -43,6 +45,14 @@ int main()
 
         std::cout << "\n";
     }
+
+    std::vector<int>::iterator a;
+
+
+    TwoDArray<int>::const_iterator  ci=i;
+
+//  TwoDArray<int>::iterator  ni=ci;
+
 
 
 }

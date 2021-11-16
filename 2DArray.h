@@ -18,10 +18,6 @@ class TwoDArray
 {
 public:
 
-    using row                   = std::span<T>;
-    using constantRow           = std::span<T const>;
-
-// TODO : use these consistently
     using value_type            = T;
     using size_type             = std::size_t;
     using difference_type       = std::ptrdiff_t;
@@ -30,19 +26,20 @@ public:
     using pointer               = value_type *;
     using const_pointer         = value_type const*;
 
-
-    using iterator               = TwoDArrayIterator<T>;
-    using const_iterator         = TwoDArrayConstIterator<T>;
+    using iterator               = TwoDArrayIterator<value_type>;
+    using const_iterator         = TwoDArrayConstIterator<value_type>;
     using reverse_iterator       = std::reverse_iterator<iterator>;
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
+    using row                   = std::span<value_type>;
+    using constantRow           = std::span<value_type const>;
 
 
 
 public:
     TwoDArray() = default;
 
-    TwoDArray(size_t rows, size_t columns) : rows{rows}, columns{columns}, vector(rows*columns)
+    TwoDArray(size_type rows, size_type columns) : rows{rows}, columns{columns}, vector(rows*columns)
     {}
 
 
@@ -111,7 +108,7 @@ public: // element access
         return vector.at(row * columns + column);
     }
 
-    T const &at(size_t row, size_t column) const
+    const_reference at(size_t row, size_t column) const
     {
         check(row,column);
 
@@ -126,37 +123,35 @@ public: // element access
         }
     }
 
-    T       &front()        = delete;
-    T const &front() const  = delete;
-    T       &back()         = delete;
-    T const &back()  const  = delete;
+    reference       front()        = delete;
+    const_reference front() const  = delete;
+    reference       back()         = delete;
+    const_reference back()  const  = delete;
 
 
 public: // row access
 
-    row operator[](size_t row)
+    row operator[](size_type row)
     {
         debugCheck(row);
         return { &vector[row * columns ], columns};
     }
 
-    constantRow operator[](size_t row) const
+    constantRow operator[](size_type row) const
     {
         debugCheck(row);
         return { &vector[row * columns ], columns};
     }
 
-    row at(size_t row)
+    row at(size_type row)
     {
         check(row);
-
         return { &vector[row * columns ], columns};
     }
 
-    constantRow at(size_t row) const
+    constantRow at(size_type row) const
     {
         check(row);
-                         vector.begin();
         return { &vector[row * columns ], columns};
     }
 
@@ -165,46 +160,46 @@ public: // row access
 public:     // iterators
 
     
-    [[nodiscard]] auto begin() 
+    [[nodiscard]] iterator begin() 
     {
-        return iterator{&vector.front(),columns};
+        return {&vector.front(),columns};
     }
 
-    [[nodiscard]] auto end() 
+    [[nodiscard]] iterator end() 
     {
-        return iterator{&vector.back()+1,columns};
-    }
-
-
-    [[nodiscard]] auto cbegin() const 
-    {
-        return const_iterator{&vector.front(),columns};
-    }
-
-    [[nodiscard]] auto cend() const
-    {
-        return const_iterator{&vector.back()+1,columns};
-    }
-
-    [[nodiscard]] auto rbegin() 
-    {
-        return reverse_iterator{end()};
-    }
-
-    [[nodiscard]] auto rend() 
-    {
-        return reverse_iterator{begin()};
+        return {&vector.back()+1,columns};
     }
 
 
-    [[nodiscard]] auto crbegin() const
+    [[nodiscard]] const_iterator cbegin() const 
     {
-        return const_reverse_iterator{cend()};
+        return {&vector.front(),columns};
+    }
+
+    [[nodiscard]] const_iterator cend() const
+    {
+        return {&vector.back()+1,columns};
+    }
+
+    [[nodiscard]] reverse_iterator rbegin() 
+    {
+        return {end()};
+    }
+
+    [[nodiscard]] reverse_iterator rend() 
+    {
+        return {begin()};
+    }
+
+
+    [[nodiscard]] const_reverse_iterator crbegin() const
+    {
+        return {cend()};
     }
          
-    [[nodiscard]] auto crend() const
+    [[nodiscard]] const_reverse_iterator crend() const
     {
-        return const_reverse_iterator{cbegin()};
+        return {cbegin()};
     }
 
 
@@ -212,7 +207,7 @@ public:     // iterators
 
 private:
 
-    void check (size_t row)
+    void check (size_type row)
     {
         if(row > rows)
         {
@@ -220,7 +215,7 @@ private:
         }
     }
 
-    void check (size_t row, size_t column)
+    void check (size_type row, size_type column)
     {
         if(row > rows)
         {
@@ -234,7 +229,7 @@ private:
     }
 
 
-    void debugCheck (size_t row)
+    void debugCheck (size_type row)
     {
         if constexpr(debugBuild)
         {
@@ -242,7 +237,7 @@ private:
         }
     }
 
-    void debugCheck (size_t row, size_t column)
+    void debugCheck (size_type row, size_type column)
     {
         if constexpr(debugBuild)
         {
@@ -252,8 +247,8 @@ private:
 
 private:
     
-    size_t              rows   {};
-    size_t              columns{};
-    std::vector<T>      vector;
+    size_type                   rows   {};
+    size_type                   columns{};
+    std::vector<value_type>     vector;
 };
 
