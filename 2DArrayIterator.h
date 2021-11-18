@@ -16,6 +16,13 @@ public:
     using size_type         = std::size_t;
     using difference_type   = std::ptrdiff_t;
 
+    // internal type
+
+    using internal_pointer  = std::conditional_t<isConst, T             const *,           T *>;
+
+
+
+    // exposed type
     using row               = std::conditional_t<isConst, std::span<T const>,           std::span<T >> ;
     using value_type        = row;
     using pointer           = std::conditional_t<isConst, value_type const *,           value_type *>;
@@ -27,7 +34,7 @@ public:
     TwoDArrayBaseIterator() noexcept : ptr{nullptr}, columns{0}
     {}
 
-    TwoDArrayBaseIterator(T *ptr, size_type  columns) noexcept : ptr{ptr}, columns{columns}
+    TwoDArrayBaseIterator(internal_pointer ptr, size_type  columns) noexcept : ptr{ptr}, columns{columns}
     {}
 
     TwoDArrayBaseIterator(TwoDArrayBaseIterator const  &   ) noexcept =default;
@@ -110,8 +117,8 @@ public:
 
 private:
 
-    T                  *ptr;
-    size_type          columns;
+    internal_pointer        ptr;
+    size_type               columns;
 };
 
 

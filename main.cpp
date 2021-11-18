@@ -11,42 +11,149 @@
 //TODO : test cases
 
 
-
-
-int main()
+void iterate(auto  &stuff)
 {
+    for(auto row=0u;row< stuff.height();row++)
     {
-        FixedTwoDArray<int,4,5>      stuff{};
-        stuff[1][2]=1;
+        for(auto column=0u; column < stuff.width() ; column++)
+        {
+            stuff[row][column] = static_cast<int>(row*stuff.width()+column);
+        }
     }
-
-
-    TwoDArray<int>      stuff(5,4);
-    stuff(1,2)=1;
-
-    stuff[1][3] = 1;
-
-
-    auto i = stuff.begin();
-
-    stuff.fill(42);
 
     for(auto const &row : stuff)
     {
         for(auto const &element : row)
         {
-            std::cout << element << ' ';
+            std::cout << std::format("{:2} ",element);
         }
+        std::cout << '\n';
+    }
+    std::cout << '\n';
 
-        std::cout << "\n";
+    for(auto rit = stuff.begin(); rit!=stuff.end(); rit++)
+    {
+        for(auto cit = (*rit).begin(); cit != (*rit).end(); cit++)
+        {
+            std::cout << std::format("{:2} ",(*cit));
+        }
+        std::cout << '\n';
+    }
+    std::cout << '\n';
+
+    for(auto rit = stuff.cbegin(); rit!=stuff.cend(); rit++)
+    {
+        for(auto cit = (*rit).begin(); cit != (*rit).end(); cit++)
+        {
+            std::cout << std::format("{:2} ",(*cit));
+        }
+        std::cout << '\n';
+    }
+    std::cout << '\n';
+
+    for(auto rit = stuff.rbegin(); rit!=stuff.rend(); rit++)
+    {
+        for(auto cit = (*rit).rbegin(); cit != (*rit).rend(); cit++)
+        {
+            std::cout << std::format("{:2} ",(*cit));
+        }
+        std::cout << '\n';
+    }
+    std::cout << '\n';
+
+    for(auto rit = stuff.crbegin(); rit!=stuff.crend(); rit++)
+    {
+        for(auto cit = (*rit).rbegin(); cit != (*rit).rend(); cit++)
+        {
+            std::cout << std::format("{:2} ",(*cit));
+        }
+        std::cout << '\n';
+    }
+    std::cout << '\n';
+}
+
+
+
+void citerate(auto  &stuff)
+{
+    for(auto row=0u;row< stuff.height();row++)
+    {
+        for(auto column=0u; column < stuff.width() ; column++)
+        {
+            stuff[row][column] = static_cast<int>(row*stuff.width()+column);
+        }
     }
 
-    std::vector<int>::iterator a;
+    for(auto const &row : stuff)
+    {
+        for(auto const &element : row)
+        {
+            std::cout << std::format("{:2} ",element);
+        }
+        std::cout << '\n';
+    }
+    std::cout << '\n';
+
+    for(auto rit = stuff.begin(); rit!=stuff.end(); rit++)
+    {
+        for(auto cit = (*rit).begin(); cit != (*rit).end(); cit++)
+        {
+            std::cout << std::format("{:2} ",(*cit));
+        }
+        std::cout << '\n';
+    }
+    std::cout << '\n';
+
+    for(auto rit = stuff.cbegin(); rit!=stuff.cend(); rit++)
+    {
+        for(auto cit = (*rit).begin(); cit != (*rit).end(); cit++)
+        {
+            std::cout << std::format("{:2} ",(*cit));
+        }
+        std::cout << '\n';
+    }
+    std::cout << '\n';
+
+    for(auto rit = stuff.rbegin(); rit!=stuff.rend(); rit++)
+    {
+        for(auto cit = (*rit).rbegin(); cit != (*rit).rend(); cit++)
+        {
+            std::cout << std::format("{:2} ",(*cit));
+        }
+        std::cout << '\n';
+    }
+    std::cout << '\n';
+
+    for(auto rit = stuff.crbegin(); rit!=stuff.crend(); rit++)
+    {
+        for(auto cit = (*rit).rbegin(); cit != (*rit).rend(); cit++)
+        {
+            std::cout << std::format("{:2} ",(*cit));
+        }
+        std::cout << '\n';
+    }
+    std::cout << '\n';
+}
 
 
-    TwoDArray<int>::const_iterator  ci=i;
 
-//  TwoDArray<int>::iterator  ni=ci;
+
+int main()
+{
+
+    TwoDArray<int>      stuff(5,4);
+
+    iterate(stuff);
+    citerate(stuff);
+
+
+    TwoDArray<int>      cstuff{stuff};
+
+    iterate(cstuff);
+    citerate(cstuff);
+
+
+
 
 
 

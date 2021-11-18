@@ -63,6 +63,16 @@ public:
         return std::make_pair(rows,columns);
     }
 
+    auto height() const noexcept
+    {
+        return rows;
+    }
+
+    auto width() const noexcept
+    {
+        return columns;
+    }
+
     auto empty() const noexcept
     {
         return vector.empty();
@@ -186,23 +196,23 @@ public:     // iterators
 
     [[nodiscard]] reverse_iterator rbegin() 
     {
-        return {end()};
+        return reverse_iterator{end()};
     }
 
     [[nodiscard]] reverse_iterator rend() 
     {
-        return {begin()};
+        return reverse_iterator{begin()};
     }
 
 
     [[nodiscard]] const_reverse_iterator crbegin() const
     {
-        return {cend()};
+        return const_reverse_iterator{cend()};
     }
          
     [[nodiscard]] const_reverse_iterator crend() const
     {
-        return {cbegin()};
+        return const_reverse_iterator{cbegin()};
     }
 
 
@@ -230,7 +240,7 @@ private:
     }
 
 
-    void debugCheck (size_type row)  noexcept(releaseBuild)
+    void debugCheck ([[maybe_unused]] size_type row)  noexcept(releaseBuild)
     {
         if constexpr(debugBuild)
         {
@@ -238,7 +248,7 @@ private:
         }
     }
 
-    void debugCheck (size_type row, size_type column) noexcept(releaseBuild)
+    void debugCheck ([[maybe_unused]]size_type row, [[maybe_unused]] size_type column) noexcept(releaseBuild)
     {
         if constexpr(debugBuild)
         {
