@@ -13,14 +13,6 @@
 
 void iterate(auto  &stuff)
 {
-    for(auto row=0u;row< stuff.height();row++)
-    {
-        for(auto column=0u; column < stuff.width() ; column++)
-        {
-            stuff[row][column] = static_cast<int>(row*stuff.width()+column);
-        }
-    }
-
     for(auto const &row : stuff)
     {
         for(auto const &element : row)
@@ -74,15 +66,8 @@ void iterate(auto  &stuff)
 
 
 
-void citerate(auto  &stuff)
+void citerate(auto const &stuff)
 {
-    for(auto row=0u;row< stuff.height();row++)
-    {
-        for(auto column=0u; column < stuff.width() ; column++)
-        {
-            stuff[row][column] = static_cast<int>(row*stuff.width()+column);
-        }
-    }
 
     for(auto const &row : stuff)
     {
@@ -135,24 +120,36 @@ void citerate(auto  &stuff)
     std::cout << '\n';
 }
 
-
-
-
-int main()
+void iterate()
 {
+    TwoDArray<int>      stuff{5,4};
 
-    TwoDArray<int>      stuff(5,4);
+    for(auto row=0u;row< stuff.height();row++)
+    {
+        for(auto column=0u; column < stuff.width() ; column++)
+        {
+            stuff[row][column] = static_cast<int>(row*stuff.width()+column);
+        }
+    }
 
     iterate(stuff);
     citerate(stuff);
 
 
-    TwoDArray<int>      cstuff{stuff};
+    TwoDArray<int> const     cstuff{stuff};
 
     iterate(cstuff);
     citerate(cstuff);
+}
 
+int main()
+{
 
+    iterate();
+
+    TwoDArray<int>      stuff_i{ {1,2}, {3,4}};
+    TwoDArray           stuff_d{ {1.1,2.2}, {3.3,4.4}};
+    
 
 
 

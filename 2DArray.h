@@ -8,6 +8,8 @@
 #include <tuple>
 #include <span>
 
+#include <initializer_list>
+
 #include "debug.h"
 #include "2DArrayIterator.h"
 
@@ -46,6 +48,20 @@ public:
     {}
 
 
+//    template <typename U>        
+//    TwoDArray(std::initializer_list<U>) = delete;
+
+    TwoDArray(std::initializer_list<std::initializer_list<T>>) 
+    {
+        std::cout << "hello\n";
+
+    }
+
+
+
+public:
+
+
     TwoDArray(TwoDArray  const&)                      = default;
     TwoDArray(TwoDArray       &&) noexcept            = default;
 
@@ -53,7 +69,6 @@ public:
     TwoDArray &operator=(TwoDArray       &&) noexcept = default;
 
 
-    // TODO : {} constructors
 
 
 public:
@@ -85,6 +100,8 @@ public:
 
         vector.resize(rows*columns);  // TODO : messes up contents if columns changes.
     }
+
+    // push row,  push column?
 
 
 public: // raw access
@@ -173,44 +190,69 @@ public: // row access
 public:     // iterators
 
     
-    [[nodiscard]] iterator begin() 
+    [[nodiscard]] iterator begin()  noexcept
     {
-        return {&vector.front(),columns};
+        return iterator{&vector.front(),columns};
     }
 
-    [[nodiscard]] iterator end() 
+    [[nodiscard]] iterator end()  noexcept
     {
-        return {&vector.back()+1,columns};
+        return iterator{&vector.back()+1,columns};
     }
 
 
-    [[nodiscard]] const_iterator cbegin() const 
+    [[nodiscard]] const_iterator begin() const noexcept
     {
-        return {&vector.front(),columns};
+        return const_iterator{&vector.front(),columns};
     }
 
-    [[nodiscard]] const_iterator cend() const
+    [[nodiscard]] const_iterator end() const  noexcept
     {
-        return {&vector.back()+1,columns};
+        return const_iterator{&vector.back()+1,columns};
     }
 
-    [[nodiscard]] reverse_iterator rbegin() 
+
+
+
+    [[nodiscard]] const_iterator cbegin() const  noexcept
+    {
+        return const_iterator{&vector.front(),columns};
+    }
+
+    [[nodiscard]] const_iterator cend() const noexcept
+    {
+        return const_iterator{&vector.back()+1,columns};
+    }
+
+    [[nodiscard]] reverse_iterator rbegin()  noexcept
     {
         return reverse_iterator{end()};
     }
 
-    [[nodiscard]] reverse_iterator rend() 
+    [[nodiscard]] reverse_iterator rend()  noexcept
     {
         return reverse_iterator{begin()};
     }
 
+    [[nodiscard]] const_reverse_iterator rbegin() const noexcept
+    {
+        return const_reverse_iterator{end()};
+    }
 
-    [[nodiscard]] const_reverse_iterator crbegin() const
+    [[nodiscard]] const_reverse_iterator rend() const noexcept
+    {
+        return const_reverse_iterator{begin()};
+    }
+
+
+
+
+    [[nodiscard]] const_reverse_iterator crbegin() const noexcept
     {
         return const_reverse_iterator{cend()};
     }
          
-    [[nodiscard]] const_reverse_iterator crend() const
+    [[nodiscard]] const_reverse_iterator crend() const noexcept
     {
         return const_reverse_iterator{cbegin()};
     }
