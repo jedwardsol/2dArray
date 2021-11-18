@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
+#include <string_view>
 #include <format>
+using namespace std::literals;
 
-#include "Fixed2DArray.h"
+
 #include "2DArray.h"
 #include "2DArrayIterator.h"
 
@@ -11,19 +13,42 @@
 //TODO : test cases
 
 
-void iterate(auto  &stuff)
+void print(auto const &array)
 {
-    for(auto const &row : stuff)
+    using AT = std::remove_cvref_t<decltype(array)>;
+    using VT = AT::value_type;
+
+    std::cout << typeid(VT).name() << "\n";
+
+    for(auto const &row : array)
+    {
+        std::cout << "    ";
+        for(auto const &element : row)
+        {
+            std::cout << std::format("{:<8} ",element);
+        }
+        std::cout << '\n';
+    }
+    std::cout << '\n';
+
+}
+
+
+
+
+void iterate(auto  &array)
+{
+    for(auto const &row : array)
     {
         for(auto const &element : row)
         {
-            std::cout << std::format("{:2} ",element);
+            std::cout << std::format("{:<2} ",element);
         }
         std::cout << '\n';
     }
     std::cout << '\n';
 
-    for(auto rit = stuff.begin(); rit!=stuff.end(); rit++)
+    for(auto rit = array.begin(); rit!=array.end(); rit++)
     {
         for(auto cit = (*rit).begin(); cit != (*rit).end(); cit++)
         {
@@ -33,7 +58,7 @@ void iterate(auto  &stuff)
     }
     std::cout << '\n';
 
-    for(auto rit = stuff.cbegin(); rit!=stuff.cend(); rit++)
+    for(auto rit = array.cbegin(); rit!=array.cend(); rit++)
     {
         for(auto cit = (*rit).begin(); cit != (*rit).end(); cit++)
         {
@@ -43,7 +68,7 @@ void iterate(auto  &stuff)
     }
     std::cout << '\n';
 
-    for(auto rit = stuff.rbegin(); rit!=stuff.rend(); rit++)
+    for(auto rit = array.rbegin(); rit!=array.rend(); rit++)
     {
         for(auto cit = (*rit).rbegin(); cit != (*rit).rend(); cit++)
         {
@@ -53,7 +78,7 @@ void iterate(auto  &stuff)
     }
     std::cout << '\n';
 
-    for(auto rit = stuff.crbegin(); rit!=stuff.crend(); rit++)
+    for(auto rit = array.crbegin(); rit!=array.crend(); rit++)
     {
         for(auto cit = (*rit).rbegin(); cit != (*rit).rend(); cit++)
         {
@@ -66,10 +91,10 @@ void iterate(auto  &stuff)
 
 
 
-void citerate(auto const &stuff)
+void citerate(auto const &array)
 {
 
-    for(auto const &row : stuff)
+    for(auto const &row : array)
     {
         for(auto const &element : row)
         {
@@ -79,7 +104,7 @@ void citerate(auto const &stuff)
     }
     std::cout << '\n';
 
-    for(auto rit = stuff.begin(); rit!=stuff.end(); rit++)
+    for(auto rit = array.begin(); rit!=array.end(); rit++)
     {
         for(auto cit = (*rit).begin(); cit != (*rit).end(); cit++)
         {
@@ -89,7 +114,7 @@ void citerate(auto const &stuff)
     }
     std::cout << '\n';
 
-    for(auto rit = stuff.cbegin(); rit!=stuff.cend(); rit++)
+    for(auto rit = array.cbegin(); rit!=array.cend(); rit++)
     {
         for(auto cit = (*rit).begin(); cit != (*rit).end(); cit++)
         {
@@ -99,7 +124,7 @@ void citerate(auto const &stuff)
     }
     std::cout << '\n';
 
-    for(auto rit = stuff.rbegin(); rit!=stuff.rend(); rit++)
+    for(auto rit = array.rbegin(); rit!=array.rend(); rit++)
     {
         for(auto cit = (*rit).rbegin(); cit != (*rit).rend(); cit++)
         {
@@ -109,7 +134,7 @@ void citerate(auto const &stuff)
     }
     std::cout << '\n';
 
-    for(auto rit = stuff.crbegin(); rit!=stuff.crend(); rit++)
+    for(auto rit = array.crbegin(); rit!=array.crend(); rit++)
     {
         for(auto cit = (*rit).rbegin(); cit != (*rit).rend(); cit++)
         {
@@ -147,10 +172,27 @@ int main()
 
     iterate();
 
+    //TwoDArray<float>      stuff_e  { std::initializer_list< std::initializer_list<float>>{}};  TODO : crash
     TwoDArray<int>      stuff_i{ {1,2}, {3,4}};
     TwoDArray           stuff_d{ {1.1,2.2}, {3.3,4.4}};
+    TwoDArray           stuff_nts{ {"one",  "two",  "three"}, 
+                                   {"four", "five", "six"}, 
+                                   {"seven","eight","nine"}, };
     
+    TwoDArray           stuff_s { {"one"s,  "two"s,  "three"s}, 
+                                  {"four"s, "five"s, "six"s}, 
+                                  {"seven"s,"eight"s,"nine"s}, };
 
+    TwoDArray           stuff_sv{ {"one"sv,  "two"sv,  "three"sv}, 
+                                  {"four"sv, "five"sv, "six"sv}, 
+                                  {"seven"sv,"eight"sv,"nine"sv}, };
+
+
+    print(stuff_i);
+    print(stuff_d);
+    print(stuff_nts);
+    print(stuff_s);
+    print(stuff_sv);
 
 
 

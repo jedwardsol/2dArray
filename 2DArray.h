@@ -12,7 +12,7 @@
 
 #include "debug.h"
 #include "2DArrayIterator.h"
-
+#include "thrower.h"
 
 //TODO : noexcept
 
@@ -48,15 +48,25 @@ public:
     {}
 
 
-//    template <typename U>        
-//    TwoDArray(std::initializer_list<U>) = delete;
 
-    TwoDArray(std::initializer_list<std::initializer_list<T>>) 
+    TwoDArray(std::initializer_list<std::initializer_list<T>> contents) : TwoDArray{ contents.size(), contents.begin()->size()}     // TODO : UB if contents is empty
     {
-        std::cout << "hello\n";
+        for(size_t r{}; auto &row : contents)
+        {
+            if(row.size() != width())
+            {
+                throw_runtime_error("row is wrong length"); 
+            }
 
+            for(size_t c{}; auto element : row)
+            {
+                at(r,c)=std::move(element);
+                c++;
+            }
+
+            r++;                
+        }
     }
-
 
 
 public:
