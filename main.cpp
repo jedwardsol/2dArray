@@ -18,18 +18,25 @@ void print(auto const &array)
     using AT = std::remove_cvref_t<decltype(array)>;
     using VT = AT::value_type;
 
-    std::cout << typeid(VT).name() << "\n";
+    std::cout << std::format("{} : {}x{}\n",typeid(VT).name(),array.height(),array.width());
 
-    for(auto const &row : array)
+    if(array.empty())
     {
-        std::cout << "    ";
-        for(auto const &element : row)
-        {
-            std::cout << std::format("{:<8} ",element);
-        }
-        std::cout << '\n';
+        std::cout << "    empty\n";
     }
-    std::cout << '\n';
+    else
+    {
+        for(auto const &row : array)
+        {
+            std::cout << "    ";
+            for(auto const &element : row)
+            {
+                std::cout << std::format("{:<8} ",element);
+            }
+            std::cout << '\n';
+        }
+    }
+        std::cout << '\n';
 
 }
 
@@ -172,7 +179,8 @@ int main()
 
     iterate();
 
-    //TwoDArray<float>      stuff_e  { std::initializer_list< std::initializer_list<float>>{}};  TODO : crash
+    TwoDArray<float>    stuff_e  { std::initializer_list< std::initializer_list<float>>{}};  
+    TwoDArray<float>    stuff_ee { {},{},{}};  
     TwoDArray<int>      stuff_i{ {1,2}, {3,4}};
     TwoDArray           stuff_d{ {1.1,2.2}, {3.3,4.4}};
     TwoDArray           stuff_nts{ {"one",  "two",  "three"}, 
@@ -188,6 +196,8 @@ int main()
                                   {"seven"sv,"eight"sv,"nine"sv}, };
 
 
+    print(stuff_e);
+    print(stuff_ee);
     print(stuff_i);
     print(stuff_d);
     print(stuff_nts);

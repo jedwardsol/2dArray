@@ -49,7 +49,8 @@ public:
 
 
 
-    TwoDArray(std::initializer_list<std::initializer_list<T>> contents) : TwoDArray{ contents.size(), contents.begin()->size()}     // TODO : UB if contents is empty
+    TwoDArray(std::initializer_list<std::initializer_list<T>> contents) : TwoDArray{ contents.size(), 
+                                                                                     contents.size() ? contents.begin()->size() : 0}
     {
         for(size_t r{}; auto &row : contents)
         {
